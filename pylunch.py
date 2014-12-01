@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Copyright (c) Meikell "Kai" Lamarr 2014-2015 Marathon Data Systems
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -18,10 +20,6 @@
 # THE SOFTWARE.
 #
 ''' 
-Author: Meikell (Kai) Lamarr 
-Marathon Data Systems, Engineering Room 
-The dude with the fedora.
-
 This program will automatically fill out lunchpac web forms to order
 default lunches for yourself using crontabs, in case you forget to order lunch for that
 day. You do need to set the `uname`, `pwd`, and all `defaults` in the code,
@@ -149,12 +147,13 @@ def print_links(link):
 
 def write_log(response,can_write=True):
     '''
-
+    Writes a log to the PyLunch folder. 
     '''
     if can_write:
         response_string = str(response.read())
         pylunch_log = "pylunch.log"
         logging.basicConfig(filename=pylunch_log,
+                            format='%(asctime)s %(message)s',
                             level=logging.DEBUG, 
                             )
         logging.debug(response_string)
