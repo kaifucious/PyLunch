@@ -20,7 +20,7 @@
 ''' 
 Author: Meikell (Kai) Lamarr 
 Marathon Data Systems, Engineering Room 
-The dude wisth the fedora.
+The dude with the fedora.
 
 This program will automatically fill out lunchpac web forms to order
 default lunches for yourself using crontabs, in case you forget to order lunch for that
@@ -106,32 +106,32 @@ except ImportError:
 
 
 def banner(): 
-	'''
-	Prints out a simple banner.
-	'''
-	print(colored("\n\t\t\tPyLunch, Version %.1f, %s"%(__version__, __auth__),"green"))
-	print(colored("\t\t\t2014 Marathon Data Systems, LLC.\n","green"))
+    '''
+    Prints out a simple banner.
+    '''
+    print(colored("\n\t\t\tPyLunch, Version %.1f, %s"%(__version__, __auth__),"green"))
+    print(colored("\t\t\t2014 Marathon Data Systems, LLC.\n","green"))
 
 
 def check_defaults():
-	'''
-	Checks and makes sure defaults are filled in properly.
-	'''
-	if monday_main_default == "" or tuesday_main_default == "" or friday_main_default == "":
-		print(colored("[!] One or more defaults are not set in this program. Please make sure all defaults are set, then run this program again. [lines: 0-0]","red"))
-		sys.exit(exit_with_errors)
-	elif wednesday_stmain_default == "" and wednesday_mmgmain_default == "":
-		print(colored("[!] You have not set a defaults for either restaurant for Wednesday. Please fill the defaults correctly, and run this program again. [lines: 0-0]","red"))
-		sys.exit(exit_with_errors)
-	elif wednesday_stmain_default != "" and wednesday_mmgmain_default != "":
-		print(colored("[!] You have set both restaurant defaults for Wednesday. Please make sure you only fill out the defaults for either Surf Taco or MMG. [lines:  0-0]","red"))
-		sys.exit(exit_with_errors)
-	elif thursday_waabmain_default == "" and thursday_gdmain_default == "":
-		print(colored("[!] You have not set a defaults for either restaurant for Thursday. Please fill the defaults correctly, and run this program again. [lines: 0-0]","red"))
-		sys.exit(exit_with_errors)
-	elif thursday_waabmain_default != "" and thursday_gdmain_default != "":
-		print(colored("[!] You have set both restaurant defaults for Thursday. Please make sure you only fill out the defaults for either Surf Taco or MMG. [lines:  0-0]","red"))
-		sys.exit(exit_with_errors)
+    '''
+    Checks and makes sure defaults are filled in properly.
+    '''
+    if monday_main_default == "" or tuesday_main_default == "" or friday_main_default == "":
+        print(colored("[!] One or more defaults are not set in this program. Please make sure all defaults are set, then run this program again. [lines: 0-0]","red"))
+        sys.exit(exit_with_errors)
+    elif wednesday_stmain_default == "" and wednesday_mmgmain_default == "":
+        print(colored("[!] You have not set a defaults for either restaurant for Wednesday. Please fill the defaults correctly, and run this program again. [lines: 0-0]","red"))
+        sys.exit(exit_with_errors)
+    elif wednesday_stmain_default != "" and wednesday_mmgmain_default != "":
+        print(colored("[!] You have set both restaurant defaults for Wednesday. Please make sure you only fill out the defaults for either Surf Taco or MMG. [lines:  0-0]","red"))
+        sys.exit(exit_with_errors)
+    elif thursday_waabmain_default == "" and thursday_gdmain_default == "":
+        print(colored("[!] You have not set a defaults for either restaurant for Thursday. Please fill the defaults correctly, and run this program again. [lines: 0-0]","red"))
+        sys.exit(exit_with_errors)
+    elif thursday_waabmain_default != "" and thursday_gdmain_default != "":
+        print(colored("[!] You have set both restaurant defaults for Thursday. Please make sure you only fill out the defaults for either Surf Taco or MMG. [lines:  0-0]","red"))
+        sys.exit(exit_with_errors)
 
 
 def print_response(response):
@@ -148,45 +148,42 @@ def print_links(link):
     print(link.url)
 
 def write_log(response,can_write=True):
-	'''
+    '''
 
-	'''
-	if can_write:
-		response_string = str(response.read())
-		pylunch_log = "pylunch.log"
-		logging.basicConfig(filename=pylunch_log,
-							level=logging.DEBUG, 
-							)
-		logging.debug(response_string)
-		f = open(pylunch_log, 'rt')
-		try: body = f.read()
-		finally: f.close()  
+    '''
+    if can_write:
+        response_string = str(response.read())
+        pylunch_log = "pylunch.log"
+        logging.basicConfig(filename=pylunch_log,
+                            level=logging.DEBUG, 
+                            )
+        logging.debug(response_string)
+        f = open(pylunch_log, 'rt')
+        try: body = f.read()
+        finally: f.close()  
 
 def timout_regex(response):
-	'''
-	Searches for a regex indicating that the user can no longer place 
-	lunch orders, as the time criteria has been met. If it finds a 
-	match, let the user know that they can't submit orders, and exit
-	gracefully. This function is really only used for manual entry, 
-	obviously the script is automatic so in theory it should never not 
-	order a lunch. 
-	'''
-	timeout_string = "all orders have been placed for today"
-	response_string = str(response.read())
+    '''
+    Searches for a regex indicating that the user can no longer place 
+    lunch orders, as the time criteria has been met. If it finds a 
+    match, let the user know that they can't submit orders, and exit
+    gracefully. This function is really only used for manual entry, 
+    obviously the script is automatic so in theory it should never not 
+    order a lunch. 
+    '''
+    timeout_string = "all orders have been placed for today"
+    response_string = str(response.read())
 
-	if re.search(timeout_string, response_string):
-		# Match Found, Time is exceeded 
-		print(colored("[!] You have missed the deadline to order lunch! Please see the Marathon Data Systems Accounting department.","red"))
-		write_log(response)
-		sys.exit(exit_gracefully)
-	else:
-		# No match, there's still time! :)
-		pass 
+    if re.search(timeout_string, response_string):
+        # Match Found, Time is exceeded 
+        print(colored("[!] You have missed the deadline to order lunch! Please see the Marathon Data Systems Accounting department.","red"))
+        write_log(response)
+        sys.exit(exit_gracefully)
 
  
 
 def override(*args,**kwargs):
-	pass # experimental
+    pass # experimental
 
 
 
@@ -226,175 +223,176 @@ def main(*args,**kwargs):
     today = datetime.datetime.today().weekday() 
 
     if today == 0:  
-    	print(colored("[+] Today is Monday, the beginning of the work week. Time for some Grossman's Deli!","cyan"))
-    	#for link in mds_browser.links():
-    	#	print_links(link)
-    	# Get the Muscle Man Group URL
-    	print(colored("[+] Opening Grossman Deli's order submission menu...","cyan"))
-    	target_url = "/restaurant.asp"
-    	mds_browser.find_link(url=target_url)
-    	the_burger = mds_browser.click_link(url=target_url)
-    	response = mds_browser.open(the_burger)
-    	timout_regex(response)
-    	# Fill out the order form and submit it if time is still valid
-    	for form in mds_browser.forms():
-    		print(colored("[+] Placing order...","cyan"))
-    		mds_browser.select_form(nr=0)
-    		mds_browser.form["OrderItem1"] = monday_main_default
-    		mds_browser.form["Soup1"] = monday_soup_default
-    		mds_browser.form["SoupSize1"] = monday_soup_size_default
-    		mds_browser.form["OrderComments1"] = monday_comments_default
-    		response = mds_browser.submit()
-    		write_log(response)
-    		print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    		sys.exit(exit_gracefully)  
+        print(colored("[+] Today is Monday, the beginning of the work week. Time for some Grossman's Deli!","cyan"))
+        #for link in mds_browser.links():
+        #   print_links(link)
+        # Get the Muscle Man Group URL
+        print(colored("[+] Opening Grossman Deli's order submission menu...","cyan"))
+        target_url = "/restaurant.asp"
+        mds_browser.find_link(url=target_url)
+        the_burger = mds_browser.click_link(url=target_url)
+        response = mds_browser.open(the_burger)
+        timout_regex(response)
+        # Fill out the order form and submit it if time is still valid
+        for form in mds_browser.forms():
+            print(colored("[+] Placing order...","cyan"))
+            mds_browser.select_form(nr=0)
+            mds_browser.form["OrderItem1"] = monday_main_default
+            mds_browser.form["Soup1"] = monday_soup_default
+            mds_browser.form["SoupSize1"] = monday_soup_size_default
+            mds_browser.form["OrderComments1"] = monday_comments_default
+            response = mds_browser.submit()
+            write_log(response)
+            print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+            sys.exit(exit_gracefully)  
 
     elif today == 1: 
-    	print(colored("[+] Today is Tuesday. Time for some Nino Jr's!","cyan"))
-    	#for link in mds_browser.links():
-    	#	print_links(link)
-    	# Get the Muscle Man Group URL 
-    	print(colored("[+] Opening Nino Jr's order submission menu...","cyan"))
-    	target_url = ""
-    	mds_browser.find_link(url=target_url)
-    	the_sandwich = mds_browser.click_link(url=target_url)
-    	mds_browser.open(the_sandwich)
-    	# Fill out the order form and submit it 
-    	for form in mds_browser.forms():
-    		print(colored("[+] Placing order...","cyan"))
-    		mds_browser.select_form(nr=0)
-    		mds_broswer.form["OrderItem1"] = tuesday_main_default
-    		mds_browser.form["Soup1"] = tuesday_soup_default
-    		mds_browser.form["SoupSize1"] = tuesday_soup_size_default
-    		mds_browser.form["OrderComments1"] = tuesday_comments_default
-    		response = mds_browser.submit()\
-    		#print_response(response)
-    		print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    		sys.exit(exit_gracefully)  
+        print(colored("[+] Today is Tuesday. Time for some Nino Jr's!","cyan"))
+        #for link in mds_browser.links():
+        #   print_links(link)
+        # Get the Muscle Man Group URL 
+        print(colored("[+] Opening Nino Jr's order submission menu...","cyan"))
+        target_url = "/restaurant.asp"
+        mds_browser.find_link(url=target_url)
+        the_sandwich = mds_browser.click_link(url=target_url)
+        response = mds_browser.open(the_sandwich)
+        timout_regex(response)
+        # Fill out the order form and submit it 
+        for form in mds_browser.forms():
+            print(colored("[+] Placing order...","cyan"))
+            mds_browser.select_form(nr=0)
+            mds_broswer.form["OrderItem1"] = tuesday_main_default
+            mds_browser.form["Soup1"] = tuesday_soup_default
+            mds_browser.form["SoupSize1"] = tuesday_soup_size_default
+            mds_browser.form["OrderComments1"] = tuesday_comments_default
+            response = mds_browser.submit()
+            write_log(response)
+            print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+            sys.exit(exit_gracefully)  
 
     elif today == 2: 
-    	if wednesday_stmain_default != "":
-    		# User is using Surf Taco's defaults
-    		print(colored("[+] Today is Wednesday. You have Surf Taco set as your default.","cyan"))
+        if wednesday_stmain_default != "":
+            # User is using Surf Taco's defaults
+            print(colored("[+] Today is Wednesday. You have Surf Taco set as your default.","cyan"))
             #for link in mds_browser.links():
-    		#  print_links(link)
-    		# Get the Surf Taco URL
-    		print(colored("[+] Opening the Surf Taco order submission menu...","cyan"))
-    		target_url = "/default.asp?RestaurantID=11" 
-    		mds_browser.find_link(url=target_url)
-    		the_taco = mds_browser. click_link(url=target_url)
-    		mds_browser.open(the_taco)
-    		# Fill Out the Order Form and Submit it
-    		for form in mds_browser.forms():
-    			print(colored("[+] Placing order...","cyan"))
-    			mds_browser.select_form(nr=0)  
-    			mds_browser.form["OrderItem1"] = wednesday_stmain_default
-    			mds_browser.form["Soup1"] = wednesday_stsoup_default
-    			mds_browser.form["SoupSize1"] = wednesday_stsoup_size_default
-    			mds_browser.form["OrderComments1"] = wednesday_stcomments_default
-    			response = mds_browser.submit() 
-    			#print_response(response)
-    			print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    			sys.exit(exit_gracefully)
-    	elif wednesday_mmgmain_default != "":
-    		# User is using Muscle Man Group's defaults
-    		print(colored("[+] Today is Wednesday. You have Muscle Man Group set as your default.","cyan"))
-    		#for link in mds_browser.links():
-    		#	print_links(link)
-    		# Get the Muscle Man Group URL 
-    		print(colored("[+] Opening the Muscle Man Group order submission menu...","cyan"))
-    		target_url = ""
-    		mds_browser.find_link(url=target_url)
-    		the_muscle = mds_browser.click_link(url=target_url)
-    		mds_browser.open(the_muscle)
-    		# Fill out the order form and submit it 
-    		for form in mds_browser.forms():
-    			print(colored("[+] Placing order...","cyan"))
-    			mds_browser.select_form(nr=0)
-    			mds_broswer.form["OrderItem1"] = wednesday_mmgmain_default
-    			mds_browser.form["Soup1"] = wednesday_mmgsoup_default
-    			mds_browser.form["SoupSize1"] = wednesday_mmgsoup_size_default
-    			mds_browser.form["OrderComments1"] = wednesday_mmgcomments_default
-    			response = mds_browser.submit()
-    			#print_response(response)
-    			print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    			sys.exit(exit_gracefully)
+            #  print_links(link)
+            # Get the Surf Taco URL
+            print(colored("[+] Opening the Surf Taco order submission menu...","cyan"))
+            target_url = "/default.asp?RestaurantID=11" 
+            mds_browser.find_link(url=target_url)
+            the_taco = mds_browser. click_link(url=target_url)
+            mds_browser.open(the_taco)
+            # Fill Out the Order Form and Submit it
+            for form in mds_browser.forms():
+                print(colored("[+] Placing order...","cyan"))
+                mds_browser.select_form(nr=0)  
+                mds_browser.form["OrderItem1"] = wednesday_stmain_default
+                mds_browser.form["Soup1"] = wednesday_stsoup_default
+                mds_browser.form["SoupSize1"] = wednesday_stsoup_size_default
+                mds_browser.form["OrderComments1"] = wednesday_stcomments_default
+                response = mds_browser.submit() 
+                #print_response(response)
+                print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+                sys.exit(exit_gracefully)
+        elif wednesday_mmgmain_default != "":
+            # User is using Muscle Man Group's defaults
+            print(colored("[+] Today is Wednesday. You have Muscle Man Group set as your default.","cyan"))
+            #for link in mds_browser.links():
+            #   print_links(link)
+            # Get the Muscle Man Group URL 
+            print(colored("[+] Opening the Muscle Man Group order submission menu...","cyan"))
+            target_url = ""
+            mds_browser.find_link(url=target_url)
+            the_muscle = mds_browser.click_link(url=target_url)
+            mds_browser.open(the_muscle)
+            # Fill out the order form and submit it 
+            for form in mds_browser.forms():
+                print(colored("[+] Placing order...","cyan"))
+                mds_browser.select_form(nr=0)
+                mds_broswer.form["OrderItem1"] = wednesday_mmgmain_default
+                mds_browser.form["Soup1"] = wednesday_mmgsoup_default
+                mds_browser.form["SoupSize1"] = wednesday_mmgsoup_size_default
+                mds_browser.form["OrderComments1"] = wednesday_mmgcomments_default
+                response = mds_browser.submit()
+                #print_response(response)
+                print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+                sys.exit(exit_gracefully)
 
     elif today == 3: 
-    	if thursday_waabmain_default != "":
-    		# User is using What About A Bagel's defaults
-    		print(colored("[+] Today is Thursday. You have What About A Bagel set as your default.","cyan"))
+        if thursday_waabmain_default != "":
+            # User is using What About A Bagel's defaults
+            print(colored("[+] Today is Thursday. You have What About A Bagel set as your default.","cyan"))
             #for link in mds_browser.links():
-    		#  print_links(link)
-    		# Get the What About A Bagel URL
-    		print(colored("[+] Opening the What About A Bagel order submission menu...","cyan"))
-    		target_url = "" 
-    		mds_browser.find_link(url=target_url)
-    		the_bagel = mds_browser. click_link(url=target_url)
-    		mds_browser.open(the_bagel)
-    		# Fill Out the Order Form and Submit it
-    		for form in mds_browser.forms():
-    			print(colored("[+] Placing order...","cyan"))
-    			mds_browser.select_form(nr=0)  
-    			mds_browser.form["OrderItem1"] = thursday_waabmain_default
-    			mds_browser.form["Soup1"] = thursday_waabsoup_default
-    			mds_browser.form["SoupSize1"] = thursday_waabsoup_size_default
-    			mds_browser.form["OrderComments1"] = thursday_waabcomments_default
-    			response = mds_browser.submit() 
-    			#print_response(response)
-    			print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    			sys.exit(exit_gracefully)
-    	elif thursday_gdmain_default != "":
-    		# User is using Garden Dragon's defaults
-    		print(colored("[+] Today is Thursday. You have Garden Dragon set as your default.","cyan"))
-    		#for link in mds_browser.links():
-    		#	print_links(link)
-    		# Get the Muscle Man Group URL 
-    		print(colored("[+] Opening the Garden Dragon order submission menu...","cyan"))
-    		target_url = ""
-    		mds_browser.find_link(url=target_url)
-    		the_chinese = mds_browser.click_link(url=target_url)
-    		mds_browser.open(the_chinese)
-    		# Fill out the order form and submit it 
-    		for form in mds_browser.forms():
-    			print(colored("[+] Placing order...","cyan"))
-    			mds_browser.select_form(nr=0)
-    			mds_broswer.form["OrderItem1"] = thursday_gdmain_default
-    			mds_browser.form["Soup1"] = thursday_gdsoup_default
-    			mds_browser.form["SoupSize1"] = thursday_gdsoup_size_default
-    			mds_browser.form["OrderComments1"] = thursday_gdcomments_default
-    			response = mds_browser.submit()
-    			#print_response(response)
-    			print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    			sys.exit(exit_gracefully)
+            #  print_links(link)
+            # Get the What About A Bagel URL
+            print(colored("[+] Opening the What About A Bagel order submission menu...","cyan"))
+            target_url = "" 
+            mds_browser.find_link(url=target_url)
+            the_bagel = mds_browser. click_link(url=target_url)
+            mds_browser.open(the_bagel)
+            # Fill Out the Order Form and Submit it
+            for form in mds_browser.forms():
+                print(colored("[+] Placing order...","cyan"))
+                mds_browser.select_form(nr=0)  
+                mds_browser.form["OrderItem1"] = thursday_waabmain_default
+                mds_browser.form["Soup1"] = thursday_waabsoup_default
+                mds_browser.form["SoupSize1"] = thursday_waabsoup_size_default
+                mds_browser.form["OrderComments1"] = thursday_waabcomments_default
+                response = mds_browser.submit() 
+                #print_response(response)
+                print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+                sys.exit(exit_gracefully)
+        elif thursday_gdmain_default != "":
+            # User is using Garden Dragon's defaults
+            print(colored("[+] Today is Thursday. You have Garden Dragon set as your default.","cyan"))
+            #for link in mds_browser.links():
+            #   print_links(link)
+            # Get the Muscle Man Group URL 
+            print(colored("[+] Opening the Garden Dragon order submission menu...","cyan"))
+            target_url = ""
+            mds_browser.find_link(url=target_url)
+            the_chinese = mds_browser.click_link(url=target_url)
+            mds_browser.open(the_chinese)
+            # Fill out the order form and submit it 
+            for form in mds_browser.forms():
+                print(colored("[+] Placing order...","cyan"))
+                mds_browser.select_form(nr=0)
+                mds_broswer.form["OrderItem1"] = thursday_gdmain_default
+                mds_browser.form["Soup1"] = thursday_gdsoup_default
+                mds_browser.form["SoupSize1"] = thursday_gdsoup_size_default
+                mds_browser.form["OrderComments1"] = thursday_gdcomments_default
+                response = mds_browser.submit()
+                #print_response(response)
+                print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+                sys.exit(exit_gracefully)
 
     elif today == 4: 
-    	print(colored("[+] Today is Friday, the end of the work week. Time for some Dominic's!","cyan"))
-    	#for link in mds_browser.links():
-    	#	print_links(link)
-    	# Get the Muscle Man Group URL 
-    	print(colored("[+] Opening the Dominic's order submission menu...","cyan"))
-    	target_url = ""
-    	mds_browser.find_link(url=target_url)
-    	the_pizza = mds_browser.click_link(url=target_url)
-    	mds_browser.open(the_pizza)
-    	# Fill out the order form and submit it 
-    	for form in mds_browser.forms():
-    		print(colored("[+] Placing order...","cyan"))
-    		mds_browser.select_form(nr=0)
-    		mds_broswer.form["OrderItem1"] = friday_main_default
-    		mds_browser.form["Soup1"] = friday_soup_default
-    		mds_browser.form["SoupSize1"] = friday_soup_size_default
-    		mds_browser.form["OrderComments1"] = friday_comments_default
-    		response = mds_browser.submit()
-    		#print_response(response)
-    		print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
-    		sys.exit(exit_gracefully) 
+        print(colored("[+] Today is Friday, the end of the work week. Time for some Dominic's!","cyan"))
+        #for link in mds_browser.links():
+        #   print_links(link)
+        # Get the Muscle Man Group URL 
+        print(colored("[+] Opening the Dominic's order submission menu...","cyan"))
+        target_url = ""
+        mds_browser.find_link(url=target_url)
+        the_pizza = mds_browser.click_link(url=target_url)
+        mds_browser.open(the_pizza)
+        # Fill out the order form and submit it 
+        for form in mds_browser.forms():
+            print(colored("[+] Placing order...","cyan"))
+            mds_browser.select_form(nr=0)
+            mds_broswer.form["OrderItem1"] = friday_main_default
+            mds_browser.form["Soup1"] = friday_soup_default
+            mds_browser.form["SoupSize1"] = friday_soup_size_default
+            mds_browser.form["OrderComments1"] = friday_comments_default
+            response = mds_browser.submit()
+            #print_response(response)
+            print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
+            sys.exit(exit_gracefully) 
     else: 
-    	# Realistically, we shouldnt get to this point, since nobody works on Saturday and Sunday.
-    	# However, so those days won't be too sad and left out, we just simply print out a weekend message.
-    	print(colored("[+] It's the weekend, why is this program running? Go out and partayyy!"))    
-    	sys.exit(exit_gracefully)
+        # Realistically, we shouldnt get to this point, since nobody works on Saturday and Sunday.
+        # However, so those days won't be too sad and left out, we just simply print out a weekend message.
+        print(colored("[+] It's the weekend, why is this program running? Go out and partayyy!"))    
+        sys.exit(exit_gracefully)
 
 if __name__ == "__main__":
     main()

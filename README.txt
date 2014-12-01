@@ -34,7 +34,7 @@ or if you wanted to run the script once a week on Wednesday, you could use the f
 
 *	*	*	*	3
 
-Although you can make the sequence whenver you want, it's wise to choose a sequece that will order a couple of minutes (if not exactly 1 minute) before 9:30 AM, as this is the general cutoff time for lunch orders during the week. 
+Although you can make the sequence whatever you want, it's wise to choose a sequece that will order a couple of minutes (if not exactly 1 minute) before 9:30 AM, as this is the general cutoff time for lunch orders during the week. 
 
 After you're done configuring the CronTab, to save the tab press Control + O (to write the file), then Enter to accept the new file name, and then Control + X (to exit nano).
 
@@ -48,9 +48,23 @@ To see a list of all CronTabs, use:
 
 crontab -l 
 
+To get more help on the PyLunch module itself, open up a terminal window and start a Python environment:
+
+python 
+
+After the environment starts, import the pylunch module and call hep() on it: 
+
+import pylunch 
+help(pylunch)
+
+The doc string should explain what's going on. If you still don't understand, contact me and I'll help you out. 
+
+REMEMBER TO ADD YOUR OWN USERNAME AND PASSWORD LOGIN TO PYLUNCH.PY OR NOTHING WILL WORK!!!
+
 
 --------------------------
 Happy Lunch Ordering! 
+>>> Hack the Gibson
 
 
 
