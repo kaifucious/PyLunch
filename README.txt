@@ -49,6 +49,16 @@ To see a list of all CronTabs, use:
 
 crontab -l 
 
+To see if the CronTab successfully executed the program, use: 
+
+mail
+
+To delete all mail in the CronTab mailbox, use:
+
+cd /var/mail 
+
+and delete the lone file 
+
 @additional_help
 To get more help on the PyLunch module itself, open up a terminal window and start a Python environment:
 

@@ -300,7 +300,7 @@ def main(*args,**kwargs):
             #   print_links(link)
             # Get the Muscle Man Group URL 
             print(colored("[+] Opening the Muscle Man Group order submission menu...","cyan"))
-            target_url = ""
+            target_url = "/default.asp?RestaurantID=22"
             mds_browser.find_link(url=target_url)
             the_muscle = mds_browser.click_link(url=target_url)
             mds_browser.open(the_muscle)
@@ -308,7 +308,7 @@ def main(*args,**kwargs):
             for form in mds_browser.forms():
                 print(colored("[+] Placing order...","cyan"))
                 mds_browser.select_form(nr=0)
-                mds_broswer.form["OrderItem1"] = wednesday_mmgmain_default
+                mds_browser.form["OrderItem1"] = wednesday_mmgmain_default
                 mds_browser.form["Soup1"] = wednesday_mmgsoup_default
                 mds_browser.form["SoupSize1"] = wednesday_mmgsoup_size_default
                 mds_browser.form["OrderComments1"] = wednesday_mmgcomments_default
@@ -325,7 +325,7 @@ def main(*args,**kwargs):
             #  print_links(link)
             # Get the What About A Bagel URL
             print(colored("[+] Opening the What About A Bagel order submission menu...","cyan"))
-            target_url = "" 
+            target_url = "/default.asp?RestaurantID=1" 
             mds_browser.find_link(url=target_url)
             the_bagel = mds_browser. click_link(url=target_url)
             mds_browser.open(the_bagel)
@@ -348,7 +348,7 @@ def main(*args,**kwargs):
             #   print_links(link)
             # Get the Muscle Man Group URL 
             print(colored("[+] Opening the Garden Dragon order submission menu...","cyan"))
-            target_url = ""
+            target_url = "/default.asp?RestaurantID=14"
             mds_browser.find_link(url=target_url)
             the_chinese = mds_browser.click_link(url=target_url)
             mds_browser.open(the_chinese)
@@ -357,7 +357,7 @@ def main(*args,**kwargs):
                 print(colored("[+] Placing order...","cyan"))
                 mds_browser.select_form(nr=0)
                 mds_browser.form["OrderItem1"] = thursday_gdmain_default
-                mds_browser.form["Soup1"] = thursday_gdsoup_default
+                mds_browser.form["Soup1"] = thrusday_gdsoup_default
                 mds_browser.form["SoupSize1"] = thursday_gdsoup_size_default
                 mds_browser.form["OrderComments1"] = thursday_gdcomments_default
                 response = mds_browser.submit()
