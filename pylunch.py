@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # Copyright (c) Meikell "Kai" Lamarr 2014-2015 Marathon Data Systems
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,46 +19,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-''' 
-This program will automatically fill out lunchpac web forms to order
-default lunches for yourself using crontabs, in case you forget to order lunch for that
-day. You do need to set the `uname`, `pwd`, and all `defaults` in the code,
-as I tried to use as little raw_inputs as possible to prevent human typing
-errors. If you need help, feel free to come by the Engineering room and 
-talk to me. This software is under the "use-at-your-own-risk" license,
-meaning if you don't understand it, grab an engineer that can read Python 
-code and sit there till you do understand it. Seriously I don't wanna  
-hear no crying and whining about "oh i dont understand it". Eat a snickers bar.
-***P.S. Don't be coming to me trying to blame me for you screwing up your 
-defaults or miscalculating your daily food limit either. 
-You know how to look at the menu and spell and do math. :P
-Dictated. Not Read.
-The Author. 
-'''
 
-# Constants
 __auth__ = "Meikell Lamarr"
 __version__ = 1.0 
 site_callback = "http://lunchpac.marathondata.com/login.asp"
-uname = ""
-pwd = ""
+uname = "mlamarr"
+pwd = "mlamarr"
 exit_with_errors = -1
 exit_gracefully = 0
 # Monday
-monday_main_default = ""
+monday_main_default = "Pizza Cheese Steak"
 monday_soup_default = ""
 monday_soup_size_default = "" 
-monday_comments_default = "" 
+monday_comments_default = "Bag of Potato Chips" 
 # Tuesday
-tuesday_main_default = "" 
+tuesday_main_default = "Meatball Parmigiana (small)" 
 tuesday_soup_default = "" 
 tuesday_soup_size_default = "" 
-tuesday_comments_default = "" 
+tuesday_comments_default = "Bag of Potato Chips" 
 # Wednesday (Surf Taco)
-wednesday_stmain_default = "" 
+wednesday_stmain_default = "Jenks Burrito" 
 wednesday_stsoup_default = "" 
 wednesday_stsoup_size_default = "" 
-wednesday_stcomments_default = "" 
+wednesday_stcomments_default = "Chicken only w/ side of sour cream and guacamole" 
 # Wednesday (Muscle Maker Grill)
 wednesday_mmgmain_default = "" 
 wednesday_mmgsoup_default = ""
@@ -70,12 +53,12 @@ thursday_waabsoup_default = ""
 thursday_waabsoup_size_default = "" 
 thursday_waabcomments_default = "" 
 # Thursday (Garden Dragon)
-thursday_gdmain_default = "" 
+thursday_gdmain_default = "S5 Orange Chicken" 
 thrusday_gdsoup_default = "" 
 thursday_gdsoup_size_default = "" 
-thursday_gdcomments_default = "" 
+thursday_gdcomments_default = "Egg Roll" 
 # Friday
-friday_main_default = "" 
+friday_main_default = "Buffalo Chicken Pizza For One" 
 friday_soup_default = "" 
 friday_soup_size_default = "" 
 friday_comments_default = ""
@@ -107,8 +90,9 @@ def banner():
 	'''
 	Prints out a simple banner.
 	'''
-	print(colored("\n\t\tPyLunch, Version %.1f, %s"%(__version__, __auth__),"green"))
-	print(colored("\t\t2014 Marathon Data Systems, LLC.\n","green"))
+	print(colored("\n\t\t\tPyLunch, Version %.1f, %s"%(__version__, __auth__),"green"))
+	print(colored("\t\t\t2015 Marathon Data Systems, LLC.\n","green"))
+	print(colored("\t\t=================================================","green"))
 
 
 def check_defaults():
@@ -149,17 +133,19 @@ def write_log(response,can_write=True):
 	'''
 	Writes a log to the PyLunch folder. 
 	'''
-	if can_write:
-		response_string = str(response.read())
-		pylunch_log = "pylunch.log"
-		logging.basicConfig(filename=pylunch_log,
-							format='%(asctime)s %(message)s',
-							level=logging.DEBUG, 
-							)
-		logging.debug(response_string)
-		f = open(pylunch_log, 'rt')
-		try: body = f.read()
-		finally: f.close()  
+    #if can_write:
+    #response_string = str(response.read())
+    #path = "cd %s" % (os.getcwd())
+    #os.system(path)
+    #pylunch_log = "/pylunch.log"
+    #logging.basicConfig(filename=pylunch_log,
+    #					format='%(asctime)s %(message)s',
+    #					level=logging.DEBUG,
+    #					)
+    #logging.debug(response_string)
+    #f = open(pylunch_log, 'a+')
+    #try: body = f.read()
+    #finally: f.close()
 
 def timout_regex(response):
 	'''
@@ -181,8 +167,10 @@ def timout_regex(response):
 
  
 
-def override(*args,**kwargs):
-	pass 
+def check_for_override(attribute):
+	if attribute != "" or attribute != " ":
+		print "There is an existing order for today"
+		sys.exit(exit_gracefully)
 	
 
 
@@ -235,6 +223,7 @@ def main(*args,**kwargs):
 		for form in mds_browser.forms():
 			print(colored("[+] Placing order...","cyan"))
 			mds_browser.select_form(nr=0)
+			check_for_override(mds_browser.form["OrderItem1"])
 			mds_browser.form["OrderItem1"] = monday_main_default
 			mds_browser.form["Soup1"] = monday_soup_default
 			mds_browser.form["SoupSize1"] = monday_soup_size_default
@@ -259,6 +248,7 @@ def main(*args,**kwargs):
 		for form in mds_browser.forms():
 			print(colored("[+] Placing order...","cyan"))
 			mds_browser.select_form(nr=0)
+			check_for_override(mds_browser.form["OrderItem1"])
 			mds_browser.form["OrderItem1"] = tuesday_main_default
 			mds_browser.form["Soup1"] = tuesday_soup_default
 			mds_browser.form["SoupSize1"] = tuesday_soup_size_default
@@ -284,6 +274,7 @@ def main(*args,**kwargs):
 			for form in mds_browser.forms():
 				print(colored("[+] Placing order...","cyan"))
 				mds_browser.select_form(nr=0)  
+				check_for_override(mds_browser.form["OrderItem1"])
 				mds_browser.form["OrderItem1"] = wednesday_stmain_default
 				mds_browser.form["Soup1"] = wednesday_stsoup_default
 				mds_browser.form["SoupSize1"] = wednesday_stsoup_size_default
@@ -307,6 +298,7 @@ def main(*args,**kwargs):
 			for form in mds_browser.forms():
 				print(colored("[+] Placing order...","cyan"))
 				mds_browser.select_form(nr=0)
+				check_for_override(mds_browser.form["OrderItem1"])
 				mds_browser.form["OrderItem1"] = wednesday_mmgmain_default
 				mds_browser.form["Soup1"] = wednesday_mmgsoup_default
 				mds_browser.form["SoupSize1"] = wednesday_mmgsoup_size_default
@@ -332,6 +324,7 @@ def main(*args,**kwargs):
 			for form in mds_browser.forms():
 				print(colored("[+] Placing order...","cyan"))
 				mds_browser.select_form(nr=0)  
+				check_for_override(mds_browser.form["OrderItem1"])
 				mds_browser.form["OrderItem1"] = thursday_waabmain_default
 				mds_browser.form["Soup1"] = thursday_waabsoup_default
 				mds_browser.form["SoupSize1"] = thursday_waabsoup_size_default
@@ -355,6 +348,7 @@ def main(*args,**kwargs):
 			for form in mds_browser.forms():
 				print(colored("[+] Placing order...","cyan"))
 				mds_browser.select_form(nr=0)
+				check_for_override(mds_browser.form["OrderItem1"])
 				mds_browser.form["OrderItem1"] = thursday_gdmain_default
 				mds_browser.form["Soup1"] = thrusday_gdsoup_default
 				mds_browser.form["SoupSize1"] = thursday_gdsoup_size_default
@@ -378,6 +372,7 @@ def main(*args,**kwargs):
 		for form in mds_browser.forms():
 			print(colored("[+] Placing order...","cyan"))
 			mds_browser.select_form(nr=0)
+			check_for_override(mds_browser.form["OrderItem1"])
 			mds_browser.form["OrderItem1"] = friday_main_default
 			mds_browser.form["Soup1"] = friday_soup_default
 			mds_browser.form["SoupSize1"] = friday_soup_size_default
@@ -386,11 +381,8 @@ def main(*args,**kwargs):
 			#print_response(response)
 			print(colored("[+] You have successfully placed an order. To review your order, please log in to LunchPac.","cyan"))
 			sys.exit(exit_gracefully) 
-	else: 
-		# Realistically, we shouldnt get to this point, since nobody works on Saturday and Sunday.
-		# However, so those days won't be too sad and left out, we just simply print out a weekend message.
-		print(colored("[+] It's the weekend, why is this program running? Go out and partayyy!"))    
-		sys.exit(exit_gracefully)
+
+			
 
 if __name__ == "__main__":
 	main()
